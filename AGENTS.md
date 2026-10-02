@@ -1,5 +1,13 @@
 # NeoCache project instructions
 
+## Keep documentation current
+
+Update README.md as part of any change that affects its description of features,
+setup, usage, tests, deployment or project structure. Update linked guides when
+their instructions change. Include relevant documentation in the same commit
+as the implementation; do not require a separate user reminder. Internal changes
+that do not affect the documentation do not need a README edit.
+
 ## Mandatory regression check
 
 For every change to application code, HTML, CSS, database SQL, dependencies or
