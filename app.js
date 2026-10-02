@@ -156,6 +156,44 @@ function isRecentItem(item) {
   return age >= 0 && age <= NEW_SIGNAL_DAYS * 24 * 60 * 60 * 1000;
 }
 
+function renderRecentAdditions(items) {
+  if (collectionPage !== "archive") return;
+  const section = document.querySelector("#recent-additions");
+  const list = document.querySelector("#recent-list");
+  const recent = items.filter(item => item.created_at && Number.isFinite(Date.parse(item.created_at)))
+    .sort((a, b) => Date.parse(b.created_at) - Date.parse(a.created_at) || String(a.id).localeCompare(String(b.id)))
+    .slice(0, 4);
+  list.replaceChildren(...recent.map(item => {
+    const entry = document.createElement("li");
+    const link = document.createElement("a");
+    link.className = "recent-link";
+    const collection = itemCollection(item);
+    const url = new URL(collection === "archive" ? "index.html" : `${collection}.html`, window.location.href);
+    url.searchParams.set("item", item.slug || item.id);
+    link.href = url.href;
+    const imageUrl = getPrimaryImage(item);
+    const thumbnail = textElement("span", "recent-thumbnail", "N/87");
+    if (imageUrl) {
+      const image = document.createElement("img");
+      image.src = imageUrl;
+      image.alt = "";
+      image.loading = "lazy";
+      image.addEventListener("error", () => image.replaceWith(textElement("span", "", "N/87")));
+      thumbnail.replaceChildren(image);
+    }
+    const content = document.createElement("span");
+    content.className = "recent-copy";
+    const date = new Date(item.created_at);
+    const time = textElement("time", "recent-date", date.toLocaleDateString("en-GB", {day:"2-digit", month:"short", year:"numeric", timeZone:"UTC"}));
+    time.setAttribute("datetime", date.toISOString());
+    content.append(textElement("span", "recent-collection", collection.toUpperCase()), textElement("strong", "recent-title", item.title || "Untitled"), time);
+    link.append(thumbnail, content);
+    entry.append(link);
+    return entry;
+  }));
+  section.hidden = !recent.length;
+}
+
 function buildItemUrl(item) {
   const url = new URL(window.location.href);
   url.search = "";
@@ -541,9 +579,11 @@ async function loadItems() {
     }
     // Room gallery records are excluded before building archive cards, filters,
     // statistics, random selections, and direct item links.
-    allItems = items.filter((item) => itemCollection(item) === collectionPage && !getTags(item).some((tag) =>
+    const collectionItems = items.filter((item) => !getTags(item).some((tag) =>
       ["80s-room", "home-cinema"].includes(String(tag).trim().toLowerCase())
     ));
+    renderRecentAdditions(collectionItems);
+    allItems = collectionItems.filter(item => itemCollection(item) === collectionPage);
     count.textContent = `${allItems.length} ${allItems.length === 1 ? "item" : "items"}`;
     if (!allItems.length) {
       showMessage(collectionPage === "archive" ? "The archive is empty. No items were found." : `No ${collectionPage} yet. Check back soon.`);

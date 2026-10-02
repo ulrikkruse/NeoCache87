@@ -13,7 +13,14 @@ for(const page of [...pages,'admin','about']) {
  }
  // Every literal document ID lookup in the page's scripts must bind to real markup.
  for(const [,script] of html.matchAll(/<script[^>]*src="([^"?]+)[^"]*"/g)){
- for(const [,id] of fs.readFileSync(script,'utf8').matchAll(/document\.querySelector\(["']#([\w-]+)["']\)/g))assert(ids.includes(id),`${page}: ${script} expects #${id}`);
+ for(const [,id] of fs.readFileSync(script,'utf8').matchAll(/document\.querySelector\(["']#([\w-]+)["']\)/g)){
+ // Recently added is a homepage-only feature, guarded by collectionPage in app.js.
+ if(script==='app.js' && ['recent-additions','recent-list'].includes(id) && page!=='index'){
+  assert(!ids.includes(id),`${page}: homepage-only section must stay on index`);
+  continue;
+ }
+ assert(ids.includes(id),`${page}: ${script} expects #${id}`);
+ }
  }
  });
 }
