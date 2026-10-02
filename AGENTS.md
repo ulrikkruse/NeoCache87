@@ -55,3 +55,14 @@ routine confirmation again.
 - Report the commit identifier and whether push succeeded. A local commit is
   not a successful push. Git pushes do not imply deployment to Neocities or
   execution of Supabase migrations.
+
+## Neocities deployment
+
+The user authorizes uploading completed website changes to neocache87 after the
+required checks, commit and push. Use `npm run deploy:plan` to inspect differences,
+then `npm run deploy`; it reruns the tests and verifies uploaded hashes. Follow
+NEOCITIES-DEPLOY.md. Do not deploy uncommitted changes or bypass a failed check.
+The API key is in ignored `.env.neocities` or the environment. Never print it or
+include it in Git, website uploads or chat. If absent, finish local setup and
+report deployment blocked pending local key entry. Report actual upload status
+separately from Git push status. SQL and Edge Functions remain separate.

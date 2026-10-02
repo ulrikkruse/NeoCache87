@@ -13,7 +13,7 @@ npm ci
 npx playwright install chromium webkit
 ```
 
-`npm test` runs only the 53 fast tests. `npm run test:browser` runs only the
+`npm test` runs only the fast tests. `npm run test:browser` runs only the
 browser suite. `npm run test:all` stops with an error if either suite fails.
 
 Requires Node.js 22.6+. No credentials or live database are needed. The fast suite
@@ -28,6 +28,10 @@ runs every `tests/**/*.test.mjs` file. It exits with a nonzero code on failure.
 Existing music and ISBN tests are included automatically.
 
 ## Coverage
+
+- Neocities deployment uses mocked API responses to check manifest exclusions,
+  site identity, changed-file selection, dry runs, uploads, hash verification and
+  safe error handling. These tests never contact or write to the live site.
 
 - Full archive-script initialization against each collection's real HTML IDs
   and a simulated DOM, with synthetic paginated API responses.

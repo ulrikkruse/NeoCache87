@@ -94,6 +94,10 @@ The Supabase URL and `anon` client key in `config.js` are public browser configu
 
 ## Deploy to Neocities
 
+Automatic uploads are available with `npm run deploy:plan` and `npm run deploy`.
+See [NEOCITIES-DEPLOY.md](NEOCITIES-DEPLOY.md) for local API-key setup, checks and
+verification. Only changed website files are uploaded; Supabase is separate.
+
 There is no build output to generate. Upload the website files from the project root:
 
 - HTML: `index.html`, `music.html`, `books.html`, `comics.html`, `rooms.html`, `about.html`, `admin.html`.
