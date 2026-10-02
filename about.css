@@ -1,0 +1,16 @@
+.about-return { color: var(--cyan); font: .65rem var(--mono); letter-spacing: .1em; text-decoration: none; }
+.about-return:hover, .about-return:focus-visible { color: var(--pink); outline: none; text-shadow: 0 0 9px rgba(255, 45, 149, .65); }
+.origin-page-main { padding-bottom: clamp(70px, 10vw, 130px); }
+.origin-hero { padding: clamp(72px, 10vw, 130px) 0 70px; }
+.origin-hero h1 { max-width: 1050px; }
+.origin-page-date { margin: 36px 0 0; color: #7c7f9d; font: .7rem var(--mono); letter-spacing: .14em; }
+.origin-page-date time { color: var(--cyan); text-shadow: 0 0 10px rgba(47, 255, 224, .5); }
+.origin-copy { position: relative; display: grid; grid-template-columns: .7fr 1fr 1fr 1fr; gap: clamp(24px, 4vw, 55px); padding: clamp(28px, 5vw, 56px); border: 1px solid #35365e; border-top: 2px solid var(--pink); background: linear-gradient(120deg, rgba(255, 45, 149, .08), rgba(7, 9, 20, .96) 30%, rgba(47, 255, 224, .04)); box-shadow: 9px 9px 0 rgba(141, 61, 255, .14); }
+.origin-copy-code { margin: 0; color: var(--pink); font: .67rem var(--mono); letter-spacing: .13em; }
+.origin-copy h2 { margin: 0 0 16px; color: var(--text); font-size: 1.3rem; text-transform: uppercase; }
+.origin-copy div { padding-left: 18px; border-left: 1px solid #37395e; }
+.origin-copy div p { margin: 0; color: #acaec3; line-height: 1.75; }
+.origin-page-enter { grid-column: 2 / -1; width: fit-content; margin-top: 14px; padding: 11px 14px; border: 1px solid var(--cyan); color: var(--cyan); background: rgba(47, 255, 224, .05); font: 700 .7rem var(--mono); letter-spacing: .1em; text-decoration: none; }
+.origin-page-enter:hover, .origin-page-enter:focus-visible { color: var(--bg); background: var(--cyan); outline: none; box-shadow: 0 0 20px rgba(47, 255, 224, .35); }
+@media (max-width: 840px) { .origin-copy { grid-template-columns: 1fr; } .origin-copy div { padding: 18px 0 0; border-top: 1px solid #37395e; border-left: 0; } .origin-page-enter { grid-column: auto; } }
+@media (max-width: 560px) { .about-return { font-size: .55rem; } }

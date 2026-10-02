@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Step inside my 80s room and home cinema. A photo gallery from NeoCache87.">
+  <title>The Rooms // NeoCache87</title>
+  <link rel="stylesheet" href="style.css?v=20260930-1"><link rel="stylesheet" href="rooms.css?v=20260908-3">
+  <script src="config.js" defer></script><script src="rooms.js?v=20260909-1" defer></script>
+  <script src="visitor-counter.js?v=20260912-1" defer></script>
+  </head>
+<body class="rooms-page">
+  <div class="scanlines" aria-hidden="true"></div>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="NeoCache87 home"><span class="brand-mark" aria-hidden="true">N/87</span><span><strong>NEOCACHE<span class="brand-year">87</span></strong><small>THE ROOMS</small></span></a>
+    <div class="header-readout">
+      <nav class="collection-nav" aria-label="Collections"><a class="rooms-link" href="index.html">ARCHIVE</a><a class="rooms-link" href="music.html">MUSIC</a><a class="rooms-link" href="books.html">BOOKS</a><a class="rooms-link" href="comics.html">COMICS</a><a class="rooms-link" href="rooms.html" aria-current="page">THE ROOMS</a></nav>
+      <p class="system-status"><span></span> DATABASE LINK</p>
+    </div>
+  </header>
+  <main>
+    <section class="hero room-hero">
+      <p class="eyebrow">// PRIVATE TOUR <span>CHANNEL 87</span></p>
+      <h1>My 80s room.<br><em>My home cinema.</em></h1>
+      <p class="intro">A look inside. Retro, nostalgia, and big-screen moments — captured in photos from my rooms.</p>
+      <p class="origin-signal"><button id="origin-trigger" class="origin-trigger" type="button">ORIGIN SIGNAL</button><time datetime="1987-04-14">14 APR 1987</time><b>//</b> DURAN DURAN <b>// FIRST CONTACT</b><a href="about.html">ORIGIN FILE →</a></p>
+      <div class="room-intros"><article><span>01 // REWIND</span><h2>80s room</h2><p>Back to the decade where it all began.</p></article><article><span>02 // PLAY</span><h2>Home cinema</h2><p>The lights dim. The movie begins.</p></article></div>
+    </section>
+    <section class="archive" aria-labelledby="gallery-title">
+      <div class="section-heading"><h2 id="gallery-title">Photo gallery</h2><p id="photo-count" aria-live="polite">Loading photos…</p></div>
+      <div class="room-filters" role="group" aria-label="Choose a room"><button type="button" data-room="all" aria-pressed="true">ALL PHOTOS</button><button type="button" data-room="80s-room" aria-pressed="false">80S ROOM</button><button type="button" data-room="home-cinema" aria-pressed="false">HOME CINEMA</button></div>
+      <div id="room-status" class="status" role="status"><p>Loading photos from the rooms…</p></div>
+      <button id="retry" class="random-button" type="button" hidden>TRY AGAIN</button>
+      <div id="room-grid" class="room-grid"></div>
+      <noscript><p>Enable JavaScript to view the photo gallery.</p></noscript>
+    </section>
+  </main>
+  <footer><p>NEOCACHE87 <span>// THE ROOMS</span></p><a class="rooms-link" href="about.html">ORIGIN FILE →</a><p class="visitor-counter" title="Visits since the counter was enabled; counted once per browser tab session">VISITS <span id="visitor-count" aria-live="polite">—</span></p>
+    </footer>
+  <dialog id="room-viewer" class="lightbox" aria-labelledby="photo-caption">
+    <div class="lightbox-frame"><div class="lightbox-bar"><p>IMAGE VIEWER // ROOM TOUR</p><button id="close-viewer" type="button" aria-label="Close image viewer">CLOSE [×]</button></div>
+      <figure><div class="lightbox-stage"><button id="prev-photo" class="gallery-nav previous" type="button" aria-label="Previous photo">←</button><img id="full-photo" alt=""><button id="next-photo" class="gallery-nav next" type="button" aria-label="Next photo">→</button></div><div class="lightbox-caption"><figcaption id="photo-caption"></figcaption><p id="photo-position" aria-live="polite"></p></div></figure>
+    </div>
+  </dialog>
+  <dialog id="origin-transmission" class="origin-dialog" aria-labelledby="origin-title">
+      <div class="origin-frame">
+        <div class="origin-bar">
+          <p><span aria-hidden="true"></span> INCOMING MEMORY // CHANNEL 87</p>
+          <button id="close-origin" type="button" aria-label="Close origin transmission">CLOSE [×]</button>
+        </div>
+        <div class="origin-visual" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <p class="origin-date">14.04.1987</p>
+        <h2 id="origin-title">First<br><em>contact.</em></h2>
+        <p class="origin-message">DURAN DURAN // SIGNAL ACQUIRED</p>
+        <p class="origin-log">A memory entered the archive. The frequency remains active.</p>
+        <a class="origin-enter" href="about.html">OPEN ORIGIN FILE →</a>
+      </div>
+    </dialog>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>NeoCache // Admin Terminal</title>
+    <link rel="stylesheet" href="style.css?v=20260930-1">
+    <link rel="stylesheet" href="admin.css?v=20261001-1">
+    <script src="config.js?v=20260904-1" defer></script>
+    <script src="isbn.js?v=20260909-1" defer></script>
+    <script src="admin.js?v=20261001-1" defer></script>
+    <script src="duplicates.js?v=20261001-1" defer></script>
+    <script src="music-lookup.js?v=20261001-1" defer></script>
+    <script src="publication-lookup.js?v=20261001-1" defer></script>
+  </head>
+  <body class="admin-page">
+    <div class="scanlines" aria-hidden="true"></div>
+
+    <header class="admin-header">
+      <a class="brand" href="index.html" aria-label="NeoCache87 home">
+        <span class="brand-mark" aria-hidden="true">N/87</span>
+        <span><strong>NEOCACHE<span class="brand-year">87</span></strong><small>ADMIN TERMINAL</small></span>
+      </a>
+      <a class="return-link" href="index.html">← RETURN TO ARCHIVE</a>
+    </header>
+
+    <main class="admin-main">
+      <section id="login-panel" class="admin-panel login-panel">
+        <p class="panel-code">// AUTH GATEWAY</p>
+        <h1>Restricted<br><em>access.</em></h1>
+        <form id="login-form" class="admin-form">
+          <label>
+            <span>EMAIL ID</span>
+            <input id="login-email" type="email" autocomplete="username" required>
+          </label>
+          <label>
+            <span>ACCESS CODE</span>
+            <input id="login-password" type="password" autocomplete="current-password" required>
+          </label>
+          <button class="primary-action" type="submit">AUTHENTICATE →</button>
+        </form>
+        <p id="login-status" class="form-status" role="status"></p>
+      </section>
+
+      <section id="editor-panel" class="editor-panel" hidden>
+        <div class="editor-heading">
+          <div>
+            <p class="panel-code">// NEW ARCHIVE RECORD</p>
+            <h1>Encode<br><em>artifact.</em></h1>
+          </div>
+          <div class="operator-block">
+            <p>OPERATOR</p>
+            <strong id="operator-email"></strong>
+            <button id="logout-button" type="button">DISCONNECT</button>
+          </div>
+        </div>
+
+        <form id="item-form" class="item-editor">
+          <fieldset>
+            <legend>01 // CORE DATA</legend>
+            <div class="field-grid">
+              <label class="span-2"><span>RECORD KIND</span><select id="record-kind" name="record_kind"><option value="artifact">Artifact</option><option value="music">Music release</option><option value="books">Book</option><option value="comics">Comic</option></select></label>
+              <label class="span-2"><span>TITLE *</span><input id="item-title" name="title" required></label>
+              <label><span>MANUFACTURER</span><input name="manufacturer"></label>
+              <label><span>MODEL</span><input name="model"></label>
+              <label><span>YEAR</span><input name="year" type="number" min="1800" max="2100"></label>
+              <label><span>TYPE</span><input name="type" list="type-options"></label>
+              <label><span>CATEGORY</span><input name="category" list="category-options"></label>
+              <label><span>CONDITION</span><input name="condition"></label>
+              <label><span>LOCATION</span><input name="location"></label>
+              <label><span>STATUS</span><input name="status"></label>
+              <label id="personal-story-field" class="span-2"><span>PERSONAL STORY // ARCHIVE ONLY</span><textarea name="personal_story" rows="6" maxlength="10000" placeholder="Where did you find it? What makes it special to you?"></textarea></label>
+              <label class="span-2"><span>NOTES</span><textarea name="notes" rows="5"></textarea></label>
+            </div>
+            <datalist id="type-options"></datalist>
+            <datalist id="category-options"></datalist>
+          </fieldset>
+
+          <fieldset id="music-fields" hidden disabled><legend>MUSIC // RELEASE DETAILS</legend><div class="music-lookup">
+              <h3>FIND A RELEASE</h3>
+              <p class="field-help">Scan a barcode or search MusicBrainz. Choose your edition to fill in the release details.</p>
+              <div class="lookup-controls">
+                <label><span>SEARCH BY</span><select id="lookup-mode"><option value="barcode">Barcode</option><option value="catalog">Catalog number</option><option value="title">Album title</option><option value="artist">Artist</option></select></label>
+                <label><span>SEARCH VALUE</span><input id="lookup-query" maxlength="160" autocomplete="off"></label>
+                <button id="lookup-search" type="button">SEARCH</button>
+                <button id="lookup-scan" type="button">SCAN BARCODE</button>
+              </div>
+              <div id="barcode-camera" hidden><video id="barcode-video" playsinline muted></video><button id="barcode-stop" type="button">STOP CAMERA</button></div>
+              <p id="lookup-status" role="status" aria-live="polite"></p>
+              <div id="lookup-results"></div>
+              <input name="music_musicbrainz_release_id" type="hidden">
+            </div><p class="field-help">Use the title and year above for this edition. Barcode and catalog number are optional; older records may not have a barcode.</p><div class="field-grid"><label><span>ARTIST *</span><input name="music_artist" required></label><label><span>FORMAT *</span><input name="music_format" required list="music-formats"></label><label><span>RECORD LABEL</span><input name="music_label" ></label><label><span>CATALOG NUMBER</span><input name="music_catalog_number" ></label><label><span>BARCODE (EAN / UPC)</span><input name="music_barcode" inputmode="numeric" pattern="[0-9]{8}|[0-9]{12,14}" title="Enter 8, 12, 13 or 14 digits, including leading zeros"></label><label><span>RELEASE COUNTRY</span><input name="music_country" ></label><label><span>EDITION / PRESSING</span><input name="music_edition" ></label><label><span>MATRIX / RUNOUT</span><input name="music_matrix" ></label><label><span>MEDIA CONDITION</span><input name="music_media_condition" ></label><label><span>SLEEVE CONDITION</span><input name="music_sleeve_condition" ></label><label><span>DISCOGS RELEASE ID</span><input name="music_discogs_release_id" inputmode="numeric" pattern="[0-9]+"></label></div><datalist id="music-formats"><option value="LP"></option><option value="CD"></option><option value="7-inch single"></option><option value="12-inch single"></option><option value="EP"></option><option value="Cassette"></option><option value="MiniDisc"></option><option value="SACD"></option><option value="Box set"></option><option value="Other"></option></datalist></fieldset>
+
+          <fieldset id="publication-fields" hidden disabled><legend>BOOKS &amp; COMICS // EDITION DETAILS</legend>
+<div class="music-lookup"><h3>FIND AN EDITION</h3><p class="field-help">Scan an ISBN or search by title, author, or series and issue. Check the edition before using it. Comics without ISBN can be entered manually.</p>
+<div class="lookup-controls"><label><span>SEARCH BY</span><select id="pub-lookup-mode"><option value="isbn">ISBN</option><option value="title">Title</option><option value="author">Author</option><option value="series">Series and issue</option></select></label><label><span>SEARCH VALUE</span><input id="pub-lookup-query" maxlength="160"></label><button id="pub-lookup-search" type="button">SEARCH</button><button id="pub-lookup-scan" type="button">SCAN ISBN</button></div>
+<div id="pub-barcode-camera" hidden><video id="pub-barcode-video" playsinline muted></video><button id="pub-barcode-stop" type="button">STOP CAMERA</button></div><p id="pub-lookup-status" role="status" aria-live="polite"></p><div id="pub-lookup-results"></div></div>
+<p class="field-help">Use the title and year above for this specific edition. Fields missing from the source can be filled in manually.</p><div class="field-grid"><label><span>AUTHOR / WRITER</span><input name="publication_author" ></label><label><span>FORMAT *</span><input name="publication_format" required list="publication-formats"></label><label><span>PUBLISHER</span><input name="publication_publisher" ></label><label><span>LANGUAGE</span><input name="publication_language" ></label><label><span>EDITION</span><input name="publication_edition" ></label><label><span>ISBN (OPTIONAL)</span><input name="publication_isbn" ></label><label><span>SERIES</span><input name="publication_series" ></label><label><span>ISSUE / VOLUME</span><input name="publication_issue" ></label><label><span>ILLUSTRATOR / ARTIST</span><input name="publication_illustrator" ></label></div><input type="hidden" name="publication_openlibrary_id"><datalist id="publication-formats"><option value="Hardcover"></option><option value="Paperback"></option><option value="Comic album"></option><option value="Comic issue"></option><option value="Graphic novel"></option><option value="Omnibus"></option><option value="Manga"></option></datalist></fieldset>
+          <fieldset>
+            <legend>02 // IMAGE TRANSMISSION</legend>
+            <label><span>ROOM GALLERY</span><select name="room" id="room-gallery">
+              <option value="">Collection (Archive / Music / Books / Comics)</option><option value="80s-room">80s room</option><option value="home-cinema">Home cinema</option>
+            </select></label>
+            <p class="field-help">Choose a room to show these images only in <a href="rooms.html">The Rooms</a>. Books, comics and music appear in their own collections; other items appear in Archive. Room gallery records appear only in The Rooms. Existing records can be moved to the gallery using the tags 80s-room or home-cinema below.</p>
+            <div class="upload-grid">
+              <label>
+                <span>STORAGE FOLDER *</span>
+                <input id="storage-folder" name="folder" list="folder-options" placeholder="computers" aria-describedby="folder-status" required>
+                <small id="folder-status" role="status"></small>
+              </label>
+              <datalist id="folder-options"></datalist>
+              <label class="file-drop span-2" id="file-drop">
+                <input id="image-files" name="images" type="file" accept="image/*" multiple required>
+                <span class="drop-title">DROP IMAGE FILES HERE</span>
+                <span>or click to browse // first image becomes primary</span>
+              </label>
+              <div id="image-previews" class="image-previews span-2" aria-live="polite"></div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>03 // TAG MATRIX</legend>
+            <label>
+              <span>TAGS</span>
+              <input id="item-tags" name="tags" placeholder="portable, japanese, analog" aria-describedby="tag-help">
+            </label>
+            <p id="tag-help" class="field-help">Separate tags with commas. Existing tags are reused automatically.</p>
+            <div id="known-tags" class="known-tags" aria-label="Existing tags"></div>
+          </fieldset>
+
+            <aside id="duplicate-warning" class="duplicate-warning" hidden aria-live="polite"><p id="duplicate-message"></p><ul id="duplicate-list"></ul><label id="duplicate-approval"><input id="duplicate-confirm" type="checkbox">I have checked these records and want to save another copy.</label></aside>
+          <div class="submit-console">
+            <div>
+              <p>READY TO ENCODE</p>
+              <span>Files → item → image records → tags</span>
+            </div>
+
+            <button id="save-button" class="primary-action" type="submit">COMMIT TO ARCHIVE →</button>
+          </div>
+          <div id="save-status" class="save-status" role="status" aria-live="polite"></div>
+        </form>
+
+        <section class="tag-maintenance">
+          <div class="maintenance-heading">
+            <div>
+              <p class="panel-code">// EXISTING RECORD</p>
+              <h2>Tag maintenance</h2>
+            </div>
+            <p>RETUNE AN ITEM'S TAG MATRIX</p>
+          </div>
+          <form id="edit-tags-form" class="maintenance-editor">
+            <label>
+              <span>SELECT ITEM</span>
+              <span class="admin-select-shell">
+                <select id="existing-item" required>
+                  <option value="">CHOOSE ARCHIVE RECORD…</option>
+                </select>
+              </span>
+            </label>
+            <label>
+              <span>ASSIGNED TAGS</span>
+              <input id="existing-item-tags" placeholder="portable, japanese, analog" disabled>
+            </label>
+            <p class="field-help">Edit the comma-separated list. Saving replaces this item's tag selection but never deletes tags from the database.</p>
+            <div id="maintenance-known-tags" class="known-tags" aria-label="Available tags"></div>
+            <button id="update-tags-button" class="primary-action" type="submit" disabled>UPDATE TAG MATRIX →</button>
+            <div id="existing-story-editor" hidden><label><span>PERSONAL STORY // ARCHIVE ONLY</span><textarea id="existing-personal-story" rows="6" maxlength="10000"></textarea></label><button id="save-story-button" class="primary-action" type="button">SAVE PERSONAL STORY</button><p id="story-status" role="status"></p></div>
+            <div id="edit-tags-status" class="save-status" role="status" aria-live="polite"></div>
+          </form>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>
