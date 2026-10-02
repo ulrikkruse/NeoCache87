@@ -66,3 +66,14 @@ The API key is in ignored `.env.neocities` or the environment. Never print it or
 include it in Git, website uploads or chat. If absent, finish local setup and
 report deployment blocked pending local key entry. Report actual upload status
 separately from Git push status. SQL and Edge Functions remain separate.
+
+## Supabase SQL operations
+
+The user authorizes executing routine SQL schema changes and fixes required for
+requested NeoCache work in project `zdozxuxouuwmpkajoign`. Follow
+SUPABASE-OPERATIONS.md using the signed-in browser SQL Editor when available.
+Ask before deleting existing data or making materially risky changes. Prepare
+and version the exact SQL first, verify the live result, and record execution in
+SUPABASE-CHANGELOG.md. Do not rerun historical setup scripts blindly or report
+SQL as deployed based only on passing mocked tests. No new private credentials
+are required for the browser workflow; never extract browser session secrets.

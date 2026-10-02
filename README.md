@@ -74,6 +74,10 @@ See [TESTING.md](TESTING.md) for coverage and [AGENTS.md](AGENTS.md) for project
 
 ## Supabase setup
 
+For ongoing database changes, see [SUPABASE-OPERATIONS.md](SUPABASE-OPERATIONS.md)
+and the [execution log](SUPABASE-CHANGELOG.md). SQL can be executed through the
+owner's signed-in dashboard session; this is separate from Neocities uploads.
+
 This repository contains incremental setup scripts for the existing NeoCache database. It is **not a complete one-command database bootstrap**: a new installation needs the base `items`, `images`, `tags` and `item_tags` tables, their relationships and public read policies, plus the `images` Storage bucket.
 
 For another installation, configure your own project URL and public client key in `config.js`, create an administrator and set that user's UUID in `supabase-admin-setup.sql` before running it. Review each setup guide and its prerequisites:
