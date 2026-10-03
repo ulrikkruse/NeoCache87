@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Room Tour // NeoCache87</title>
+  <meta name="description" content="Explore the rooms in detail. Zoom into photographs and discover the objects in the NeoCache87 collection.">
+  <link rel="stylesheet" href="style.css?v=20261002-1"><link rel="stylesheet" href="tour.css?v=20261003-1">
+  <script src="config.js" defer></script><script src="tour-core.js?v=20261003-1" defer></script><script src="tour.js?v=20261003-1" defer></script>
+  <script src="visitor-counter.js?v=20260912-1" defer></script>
+</head>
+<body>
+  <div class="scanlines" aria-hidden="true"></div>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="NeoCache87 home"><span class="brand-mark" aria-hidden="true">N/87</span><span><strong>NEOCACHE<span class="brand-year">87</span></strong><small>ROOM TOUR</small></span></a>
+    <a class="rooms-link" href="rooms.html">← THE ROOMS</a>
+  </header>
+  <main class="tour-main">
+    <section class="tour-intro"><p class="eyebrow">// TAKE A CLOSER LOOK <span>CHANNEL 87</span></p><h1>Step inside.</h1><p class="intro">Zoom into the room. Follow a marker. Discover the story behind an object.</p></section>
+    <p id="tour-status" role="status">Loading the tour…</p><button id="tour-retry" type="button" hidden>TRY AGAIN</button>
+    <section id="tour-content" hidden aria-label="Interactive room tour">
+      <label class="tour-picker">CHOOSE A VIEW <select id="tour-scene"></select></label>
+      <div class="tour-controls" role="group" aria-label="Image controls">
+        <button id="tour-out" type="button" aria-label="Zoom out">−</button><output id="tour-zoom" aria-live="polite">100%</output><button id="tour-in" type="button" aria-label="Zoom in">+</button>
+        <button id="tour-reset" type="button">RESET VIEW</button><button id="tour-markers" type="button" aria-pressed="true">SHOW MARKERS</button><button id="tour-hd" type="button">LOAD HIGH RESOLUTION</button>
+      </div>
+      <p class="tour-help" id="tour-help">Use + to zoom, then swipe or scroll to explore. Arrow keys move the focused image area. Select a number or an item below.</p>
+      <div id="tour-viewport" class="tour-viewport" tabindex="0" role="region" aria-label="Room photograph" aria-describedby="tour-help">
+        <div id="tour-canvas" class="tour-canvas"><img id="tour-photo" alt=""><div id="tour-points" class="tour-points"></div></div>
+      </div>
+      <p id="tour-image-status" role="status"></p>
+      <div class="tour-below"><section aria-labelledby="tour-items-title"><h2 id="tour-items-title">Objects in this view</h2><ol id="tour-items" class="tour-items"></ol></section>
+        <aside id="tour-detail" class="tour-detail" hidden aria-labelledby="tour-item-title"><img id="tour-item-image" alt="" hidden><h2 id="tour-item-title"></h2><p id="tour-item-kind"></p><a id="tour-item-link" class="rooms-link">OPEN DOSSIER →</a></aside>
+      </div>
+    </section>
+    <noscript>Enable JavaScript to explore the room tour.</noscript>
+  </main>
+  <footer><p>NEOCACHE87 <span>// ROOM TOUR</span></p><a class="rooms-link" href="rooms.html">THE ROOMS →</a><p class="visitor-counter">VISITS <span id="visitor-count" aria-live="polite">—</span></p></footer>
+</body>
+</html>

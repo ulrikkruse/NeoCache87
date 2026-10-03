@@ -233,6 +233,7 @@ async function showEditor(user) {
   loginPanel.hidden = true;
   editorPanel.hidden = false;
   void refreshStorageFolders();
+  window.dispatchEvent(new Event("neocache-admin-ready"));
   try {
     await loadEditorData();
   } catch (error) {
@@ -282,6 +283,7 @@ logoutButton.addEventListener("click", async () => {
     // Clear the local session even if the remote logout request fails.
   }
   storeSession(null);
+  window.dispatchEvent(new Event("neocache-admin-logout"));
   folderOptions.replaceChildren();
   folderStatus.textContent = "";
   editorPanel.hidden = true;

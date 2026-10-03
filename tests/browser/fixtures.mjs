@@ -6,7 +6,7 @@ const user={id:'test-owner',email:'tester@example.invalid'};
 export const test=base.extend({
  backend:async({context},use)=>{
   const items=structuredClone(mixedItems).map(item=>({...item,slug:item.id,images:[{storage_path:`${item.id}/front.png`,is_primary:true},{storage_path:`${item.id}/back.png`}],item_tags:item.id==='room'?[{tags:{name:'80s-room'}}]:[]}));
-  const state={visitTotal:1234,visitIds:new Set(),visitCalls:[],counterFailure:false,items,writes:[],unexpected:[],errors:[],folders:['books','comics','Software'],failSave:false,lookupEmpty:false,lookupFailure:false,publicationLookups:[],musicLookups:[]};
+  const state={scenes:[],tourPoints:[],tourFailure:false,tourWriteFailure:false,visitTotal:1234,visitIds:new Set(),visitCalls:[],counterFailure:false,items,writes:[],unexpected:[],errors:[],folders:['books','comics','Software'],failSave:false,lookupEmpty:false,lookupFailure:false,publicationLookups:[],musicLookups:[]};
   context.on('page',page=>page.on('pageerror',error=>state.errors.push(error.message)));
   await context.route('**/*',async route=>{
    const request=route.request(),url=new URL(request.url());
@@ -44,6 +44,22 @@ export const test=base.extend({
     if(state.counterFailure)return json({message:'Counter unavailable'},503);
     if(body.p_visit_id&&!state.visitIds.has(body.p_visit_id)){state.visitIds.add(body.p_visit_id);state.visitTotal++;}
     return json(state.visitTotal);
+   }
+   if(['/rest/v1/room_tour_scenes','/rest/v1/room_tour_points'].includes(p)){
+    if(state.tourFailure)return json({message:'Tour unavailable'},503);
+    const scenes=p.endsWith('scenes'), records=scenes?state.scenes:state.tourPoints;
+    if(method==='GET'){
+     let rows=records.filter(r=>!url.searchParams.has('scene_id')||'eq.'+r.scene_id===url.searchParams.get('scene_id'));
+     if(url.searchParams.get('published')==='eq.true')rows=rows.filter(r=>r.published);
+     if(!scenes && url.searchParams.get('select')?.includes('items('))rows=rows.filter(r=>state.scenes.some(s=>s.id===r.scene_id&&s.published)).map(r=>({...r,items:items.find(i=>i.id===r.item_id)||null}));
+     const offset=Number(url.searchParams.get('offset')||0);return json(rows.slice(offset,offset+2));
+    }
+    const body=method==='DELETE'?null:request.postDataJSON();state.writes.push({path:p,method,body});
+    if(state.tourWriteFailure)return json({message:'Fixture tour write failure'},500);
+    if(method==='POST'){const row={...body,id:body.id||'point-'+(records.length+1)};records.push(row);return json([row]);}
+    const index=records.findIndex(r=>'eq.'+r.id===url.searchParams.get('id'));
+    if(method==='PATCH'){if(index<0)return json([]);Object.assign(records[index],body);return json([records[index]]);}
+    if(method==='DELETE'){if(index>=0)records.splice(index,1);return json([]);}
    }
    if(p.startsWith('/rest/v1/')){
     const table=p.slice('/rest/v1/'.length);

@@ -29,6 +29,10 @@ Existing music and ISBN tests are included automatically.
 
 ## Coverage
 
+- Room Tour: later pages, percentage coordinates, correct dossier destinations,
+  preview/original loading, zoom, marker visibility, empty/error recovery, admin
+  upload, editing/removal, publication and responsive layout with synthetic photos.
+
 - Neocities deployment uses mocked API responses to check manifest exclusions,
   site identity, changed-file selection, dry runs, uploads, hash verification and
   safe error handling. These tests never contact or write to the live site.
@@ -83,8 +87,8 @@ guarantee that every possible failure is covered.
 
 ## Browser regression suite
 
-`tests/browser/*.spec.mjs` contains 14 user journeys, each run in both browser
-projects (28 browser runs). Tests click the real UI and wait for observable
+`tests/browser/*.spec.mjs` contains user journeys, each run in both browser
+projects. Tests click the real UI and wait for observable
 results instead of fixed sleep delays. There are no automatic retries masking
 intermittent failures.
 

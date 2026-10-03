@@ -47,7 +47,7 @@ the site before retrying. There is no automatic retry or rollback, and a batch
 upload is not a guaranteed atomic site release. Inspect the public site after
 uploading; matching storage hashes do not verify CDN cache or live Supabase behavior.
 
-Only the seven HTML pages, four CSS files, nine JavaScript files and two bundled
+Only the eight HTML pages, five CSS files, twelve JavaScript files and two bundled
 vendor files are eligible. New website assets must be deliberately added to the
 manifest. Tests, documentation, scripts, credentials and SQL are excluded.
 

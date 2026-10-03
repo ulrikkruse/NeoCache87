@@ -9,10 +9,12 @@
     <link rel="stylesheet" href="admin.css?v=20261001-1">
     <script src="config.js?v=20260904-1" defer></script>
     <script src="isbn.js?v=20260909-1" defer></script>
-    <script src="admin.js?v=20261001-1" defer></script>
+    <script src="admin.js?v=20261003-1" defer></script>
     <script src="duplicates.js?v=20261001-1" defer></script>
     <script src="music-lookup.js?v=20261001-1" defer></script>
     <script src="publication-lookup.js?v=20261001-1" defer></script>
+  <link rel="stylesheet" href="tour.css?v=20261003-1">
+    <script src="tour-core.js?v=20261003-1" defer></script><script src="admin-tour.js?v=20261003-1" defer></script>
   </head>
   <body class="admin-page">
     <div class="scanlines" aria-hidden="true"></div>
@@ -168,6 +170,21 @@
             <div id="existing-story-editor" hidden><label><span>PERSONAL STORY // ARCHIVE ONLY</span><textarea id="existing-personal-story" rows="6" maxlength="10000"></textarea></label><button id="save-story-button" class="primary-action" type="button">SAVE PERSONAL STORY</button><p id="story-status" role="status"></p></div>
             <div id="edit-tags-status" class="save-status" role="status" aria-live="polite"></div>
           </form>
+        </section>
+
+        <section id="tour-admin" class="tour-editor" aria-labelledby="at-heading">
+          <h2 id="at-heading">Room Tour</h2><p>Upload a separate high-resolution photograph, link objects, then publish the view. Originals and previews are public image files.</p>
+          <button id="at-refresh" type="button">REFRESH TOUR</button><p id="at-status" role="status"></p>
+          <form id="at-upload"><label>NEW VIEW TITLE<input id="at-title" maxlength="160" required></label><label>ROOM PHOTOGRAPH (JPEG / PNG / WEBP, MAX 20 MB)<input id="at-file" type="file" accept="image/jpeg,image/png,image/webp" required></label><button type="submit">UPLOAD TOUR VIEW</button></form>
+          <label>EDIT VIEW<select id="at-scene"><option value="">Choose a view…</option></select></label>
+          <div id="at-edit" hidden>
+            <form id="at-settings"><label>VIEW TITLE<input id="at-edit-title" maxlength="160" required></label><label><input id="at-published" type="checkbox">Published in Room Tour</label><button type="submit">SAVE VIEW SETTINGS</button></form>
+            <a id="at-open" class="rooms-link" href="tour.html">OPEN PUBLIC TOUR →</a>
+            <p>Click the photo to choose a position, or enter X/Y percentages below. Existing marker buttons select a marker for editing.</p>
+            <div class="tour-viewport"><div id="at-canvas" class="tour-canvas"><img id="at-photo" alt=""><div id="at-points" class="tour-points"></div></div></div>
+            <form id="at-marker-form"><label>FIND OBJECT<input id="at-search" type="search"></label><label>LINKED OBJECT<select id="at-item" required><option value="">Choose an object…</option></select></label><div class="tour-coordinates"><label>X (%)<input id="at-x" type="number" min="0" max="100" step="any" required></label><label>Y (%)<input id="at-y" type="number" min="0" max="100" step="any" required></label></div><button type="submit">SAVE MARKER</button></form>
+            <ol id="at-list"></ol>
+          </div>
         </section>
       </section>
     </main>

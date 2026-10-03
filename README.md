@@ -15,9 +15,13 @@ NeoCache87 combines a public collection website with an authenticated admin inte
 | Books | Books with edition details and optional ISBNs |
 | Comics | Comics with series, issue and edition details |
 | The Rooms | Photo galleries of the ’80s room and home cinema |
+| Room Tour | Zoomable photographs with markers linking to collection dossiers |
 | Origin File | The personal story behind NeoCache87 |
 
 ## Features
+
+- Explore the [Room Tour](ROOM-TOUR.md), with high-resolution views, clickable
+  objects and an admin editor for uploading photographs and placing markers.
 
 - Search and filter collections, open item dossiers, browse image galleries and share links to individual items.
 - Register items through admin with photos, tags, condition and location.
@@ -104,9 +108,9 @@ verification. Only changed website files are uploaded; Supabase is separate.
 
 There is no build output to generate. Upload the website files from the project root:
 
-- HTML: `index.html`, `music.html`, `books.html`, `comics.html`, `rooms.html`, `about.html`, `admin.html`.
-- CSS: `style.css`, `rooms.css`, `about.css`, `admin.css`.
-- JavaScript: `config.js`, `app.js`, `rooms.js`, `admin.js`, `isbn.js`, `music-lookup.js`, `publication-lookup.js`, `visitor-counter.js`, `duplicates.js`.
+- HTML: `index.html`, `music.html`, `books.html`, `comics.html`, `rooms.html`, `about.html`, `admin.html`, `tour.html`.
+- CSS: `style.css`, `rooms.css`, `about.css`, `admin.css`, `tour.css`.
+- JavaScript: `config.js`, `app.js`, `rooms.js`, `admin.js`, `isbn.js`, `music-lookup.js`, `publication-lookup.js`, `visitor-counter.js`, `duplicates.js`, `tour-core.js`, `tour.js`, `admin-tour.js`.
 - The `vendor/` directory, preserving its paths and license.
 
 Upload related HTML and asset changes together so cache-version references stay synchronized. Supabase SQL scripts and Edge Functions are applied separately through Supabase.
