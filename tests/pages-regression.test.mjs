@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 const pages=['index','music','books','comics','rooms'];
-for(const page of [...pages,'admin','about','tour']) {
+for(const page of [...pages,'admin','about','tour','memories']) {
  test(`${page}: local assets exist and element IDs are unique`,()=>{
  const html=fs.readFileSync(`${page}.html`,'utf8');
  const ids=Array.from(html.matchAll(/\bid="([^"]+)"/g),m=>m[1]);assert.equal(ids.length,new Set(ids).size);

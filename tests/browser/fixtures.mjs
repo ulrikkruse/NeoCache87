@@ -6,7 +6,7 @@ const user={id:'test-owner',email:'tester@example.invalid'};
 export const test=base.extend({
  backend:async({context},use)=>{
   const items=structuredClone(mixedItems).map(item=>({...item,slug:item.id,images:[{storage_path:`${item.id}/front.png`,is_primary:true},{storage_path:`${item.id}/back.png`}],item_tags:item.id==='room'?[{tags:{name:'80s-room'}}]:[]}));
-  const state={scenes:[],tourPoints:[],tourFailure:false,tourWriteFailure:false,visitTotal:1234,visitIds:new Set(),visitCalls:[],counterFailure:false,items,writes:[],unexpected:[],errors:[],folders:['books','comics','Software'],failSave:false,lookupEmpty:false,lookupFailure:false,publicationLookups:[],musicLookups:[]};
+  const state={memories:[],memoryPhotos:[],memoryFailure:false,memoryWriteFailure:false,memoryImageFailure:false,scenes:[],tourPoints:[],tourFailure:false,tourWriteFailure:false,visitTotal:1234,visitIds:new Set(),visitCalls:[],counterFailure:false,items,writes:[],unexpected:[],errors:[],folders:['books','comics','Software'],failSave:false,lookupEmpty:false,lookupFailure:false,publicationLookups:[],musicLookups:[]};
   context.on('page',page=>page.on('pageerror',error=>state.errors.push(error.message)));
   await context.route('**/*',async route=>{
    const request=route.request(),url=new URL(request.url());
@@ -25,6 +25,35 @@ export const test=base.extend({
    }
    if(url.hostname!=='fixture.invalid'){state.unexpected.push(request.url());return route.abort();}
    const method=request.method(),p=url.pathname;
+   const memoryAdmin=request.headers().authorization==='Bearer fixture-session';
+   if(p.startsWith('/storage/v1/object/memories/')&&method==='GET'){
+    const path=p.split('/memories/')[1], photo=state.memoryPhotos.find(row=>row.path===path);
+    const allowed=memoryAdmin || photo&&state.memories.some(row=>row.id===photo.memory_id&&row.published);
+    if(!allowed||state.memoryImageFailure)return json({message:'Photo unavailable'},403);
+    return route.fulfill({contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600"><rect width="900" height="600" fill="#29283e"/><path d="M0 430H900V600H0Z" fill="#625568"/><path d="M80 430V230L220 140L360 230V430M480 430V190H750V430" fill="#8f7480" stroke="#dbb887" stroke-width="8"/><text x="45" y="70" fill="#fff0cd" font-size="28">SYNTHETIC CHILDHOOD PHOTO</text></svg>'});
+   }
+   if(p.startsWith('/storage/v1/object/memories/')&&method==='POST'){
+    state.writes.push({path:p,method});
+    return memoryAdmin?json({}):json({message:'Forbidden'},403);
+   }
+   if(['/rest/v1/memories','/rest/v1/memory_photos'].includes(p)){
+    if(state.memoryFailure)return json({message:'Memories unavailable'},503);
+    const memories=p.endsWith('/memories'), records=memories?state.memories:state.memoryPhotos;
+    if(method==='GET'){
+     let rows=records.filter(row=>memoryAdmin||(memories?row.published:state.memories.some(m=>m.id===row.memory_id&&m.published)));
+     for(const key of ['id','memory_id','related_item_id'])if(url.searchParams.has(key))rows=rows.filter(r=>'eq.'+r[key]===url.searchParams.get(key));
+     if(url.searchParams.get('published')==='eq.true')rows=rows.filter(r=>r.published);
+     if(!memories)rows.sort((a,b)=>a.position-b.position);
+     const offset=Number(url.searchParams.get('offset')||0);return json(rows.slice(offset,offset+2));
+    }
+    const body=method==='DELETE'?null:request.postDataJSON();state.writes.push({path:p,method,body});
+    if(!memoryAdmin)return json({message:'Forbidden'},403);
+    if(state.memoryWriteFailure)return json({message:'Fixture memory write failure'},500);
+    if(method==='POST'){const row={...body,id:body.id||'photo-'+(records.length+1)};records.push(row);return json([row]);}
+    const index=records.findIndex(r=>'eq.'+r.id===url.searchParams.get('id'));
+    if(method==='PATCH'){if(index<0)return json([]);Object.assign(records[index],body);return json([records[index]]);}
+    if(method==='DELETE'){if(index>=0)records.splice(index,1);return json([]);}
+   }
    if(p.startsWith('/storage/v1/object/public/images/'))return route.fulfill({contentType:'image/png',body:png});
    if(p==='/auth/v1/token'&&method==='POST')return json({access_token:'fixture-session',user});
    if(p==='/auth/v1/user')return json(user);
@@ -65,7 +94,7 @@ export const test=base.extend({
     const table=p.slice('/rest/v1/'.length);
     if(!['items','images','tags','item_tags','music_details','publication_details'].includes(table)){state.unexpected.push(p);return route.abort();}
     if(method==='GET'){
-     if(table==='items'){const offset=Number(url.searchParams.get('offset')||0);return json(items.slice(offset,offset+2));}
+     if(table==='items'){const offset=Number(url.searchParams.get('offset')||0);const rows=items.filter(item=>!url.searchParams.has('id')||'eq.'+item.id===url.searchParams.get('id'));return json(rows.slice(offset,offset+2));}
      return json([]);
     }
     if(method==='PATCH'&&table==='items'){

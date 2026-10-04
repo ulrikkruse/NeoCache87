@@ -15,6 +15,8 @@
     <script src="publication-lookup.js?v=20261001-1" defer></script>
   <link rel="stylesheet" href="tour.css?v=20261003-1">
     <script src="tour-core.js?v=20261003-1" defer></script><script src="admin-tour.js?v=20261003-1" defer></script>
+    <link rel="stylesheet" href="memories.css?v=20261004-1">
+    <script src="memory-core.js?v=20261004-1" defer></script><script src="admin-memory.js?v=20261004-1" defer></script>
   </head>
   <body class="admin-page">
     <div class="scanlines" aria-hidden="true"></div>
@@ -170,6 +172,27 @@
             <div id="existing-story-editor" hidden><label><span>PERSONAL STORY // ARCHIVE ONLY</span><textarea id="existing-personal-story" rows="6" maxlength="10000"></textarea></label><button id="save-story-button" class="primary-action" type="button">SAVE PERSONAL STORY</button><p id="story-status" role="status"></p></div>
             <div id="edit-tags-status" class="save-status" role="status" aria-live="polite"></div>
           </form>
+        </section>
+
+
+        <section id="memory-admin" aria-labelledby="am-heading">
+          <h2 id="am-heading">Memory Lane</h2><p>Personal stories and photo albums. Draft stories and photographs are private until you publish the memory.</p>
+          <button id="am-new" type="button">NEW MEMORY</button><button id="am-refresh" type="button">REFRESH MEMORIES</button>
+          <p id="am-status" role="status"></p><label>EDIT MEMORY<select id="am-select"><option value="">NEW MEMORY…</option></select></label>
+          <form id="am-form">
+            <label>TITLE<input id="am-title" maxlength="160" required></label>
+            <label>YEAR OR PERIOD<input id="am-period" maxlength="80" placeholder="1985 or the mid-eighties"></label>
+            <label>PLACE<input id="am-place" maxlength="160"></label><label>THEME<input id="am-theme" maxlength="80" placeholder="Childhood, music, everyday life…"></label>
+            <label>YOUR STORY<textarea id="am-body" rows="10" maxlength="30000" required></textarea></label>
+            <label>LINKED COLLECTION OBJECT<select id="am-item"><option value="">No linked object</option></select></label>
+            <label class="memory-publish"><input id="am-published" type="checkbox">Published in Memory Lane</label>
+            <button type="submit">SAVE MEMORY</button>
+          </form>
+          <a id="am-open" class="rooms-link" hidden>OPEN PUBLISHED MEMORY →</a>
+          <div id="am-album" hidden><h3>Photo album</h3><p>The photograph with the lowest order number is the cover. Save captions and order separately from the story.</p>
+            <div id="am-photos" class="memory-admin-photos"></div>
+            <form id="am-upload"><label>PHOTOGRAPH (JPEG / PNG / WEBP, MAX 20 MB)<input id="am-file" type="file" accept="image/jpeg,image/png,image/webp" required></label><label>CAPTION<textarea id="am-caption" maxlength="500" rows="2"></textarea></label><button type="submit">ADD PHOTOGRAPH</button></form>
+          </div>
         </section>
 
         <section id="tour-admin" class="tour-editor" aria-labelledby="at-heading">

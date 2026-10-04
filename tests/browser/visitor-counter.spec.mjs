@@ -1,7 +1,7 @@
 import {test, expect} from './fixtures.mjs';
 
 test('visits persist across reloads and every public page; new sessions count', async ({page, backend}, testInfo) => {
-  for (const name of ['index', 'music', 'books', 'comics', 'rooms', 'about', 'tour']) {
+  for (const name of ['index', 'music', 'books', 'comics', 'rooms', 'about', 'tour', 'memories']) {
     await page.goto(`/${name}.html`);
     await expect(page.locator('#visitor-count')).toHaveText('1,235');
   }

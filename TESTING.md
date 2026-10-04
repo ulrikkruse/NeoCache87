@@ -29,6 +29,11 @@ Existing music and ISBN tests are included automatically.
 
 ## Coverage
 
+- Memory Lane: published-only lists, unavailable drafts, photo albums/captions,
+  safe multiline stories, dossier links in both directions, admin draft saves,
+  publication/unpublication, upload errors, logout and desktop/mobile layout.
+  Live Storage/RLS checks are in `tests/sql/memory-lane-regression.sql`.
+
 - Room Tour: later pages, percentage coordinates, correct dossier destinations,
   preview/original loading, zoom, marker visibility, empty/error recovery, admin
   upload, editing/removal, publication and responsive layout with synthetic photos.

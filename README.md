@@ -16,9 +16,13 @@ NeoCache87 combines a public collection website with an authenticated admin inte
 | Comics | Comics with series, issue and edition details |
 | The Rooms | Photo galleries of the ’80s room and home cinema |
 | Room Tour | Zoomable photographs with markers linking to collection dossiers |
+| Memory Lane | Personal memories, places and photo albums from the eighties |
 | Origin File | The personal story behind NeoCache87 |
 
 ## Features
+
+- Write personal memories in [Memory Lane](MEMORY-LANE.md), with photo albums,
+  captions, private drafts, publication and links to collection dossiers.
 
 - Explore the [Room Tour](ROOM-TOUR.md), with high-resolution views, clickable
   objects and an admin editor for uploading photographs and placing markers.
@@ -88,6 +92,7 @@ For another installation, configure your own project URL and public client key i
 
 | Setup | Guide or script |
 | --- | --- |
+| Memory Lane | [MEMORY-LANE.md](MEMORY-LANE.md) |
 | Administrator access | [supabase-admin-setup.sql](supabase-admin-setup.sql) |
 | Music releases and lookup | [MUSIC-LOOKUP-SETUP.md](MUSIC-LOOKUP-SETUP.md) |
 | Books, comics and ISBN lookup | [BOOKS-COMICS-SETUP.md](BOOKS-COMICS-SETUP.md) |
@@ -108,9 +113,9 @@ verification. Only changed website files are uploaded; Supabase is separate.
 
 There is no build output to generate. Upload the website files from the project root:
 
-- HTML: `index.html`, `music.html`, `books.html`, `comics.html`, `rooms.html`, `about.html`, `admin.html`, `tour.html`.
-- CSS: `style.css`, `rooms.css`, `about.css`, `admin.css`, `tour.css`.
-- JavaScript: `config.js`, `app.js`, `rooms.js`, `admin.js`, `isbn.js`, `music-lookup.js`, `publication-lookup.js`, `visitor-counter.js`, `duplicates.js`, `tour-core.js`, `tour.js`, `admin-tour.js`.
+- HTML: `index.html`, `music.html`, `books.html`, `comics.html`, `rooms.html`, `about.html`, `admin.html`, `tour.html`, `memories.html`.
+- CSS: `style.css`, `rooms.css`, `about.css`, `admin.css`, `tour.css`, `memories.css`.
+- JavaScript: `config.js`, `app.js`, `rooms.js`, `admin.js`, `isbn.js`, `music-lookup.js`, `publication-lookup.js`, `visitor-counter.js`, `duplicates.js`, `tour-core.js`, `tour.js`, `admin-tour.js`, `memory-core.js`, `memories.js`, `admin-memory.js`.
 - The `vendor/` directory, preserving its paths and license.
 
 Upload related HTML and asset changes together so cache-version references stay synchronized. Supabase SQL scripts and Edge Functions are applied separately through Supabase.

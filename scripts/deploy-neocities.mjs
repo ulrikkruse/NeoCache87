@@ -12,7 +12,8 @@ export const websiteFiles = Object.freeze([
  'config.js','app.js','rooms.js','admin.js','isbn.js','music-lookup.js',
  'publication-lookup.js','visitor-counter.js','duplicates.js',
  'vendor/zxing-browser-0.1.5.min.js','vendor/ZXING-LICENSE',
- 'tour.html','tour.css','tour-core.js','tour.js','admin-tour.js'
+ 'tour.html','tour.css','tour-core.js','tour.js','admin-tour.js',
+ 'memories.html','memories.css','memory-core.js','memories.js','admin-memory.js'
 ]);
 const root = fileURLToPath(new URL('../',import.meta.url));
 const sha1 = data => createHash('sha1').update(data).digest('hex');

@@ -20,7 +20,7 @@ function mock({wrongSite=false,failUpload=false,staleAfter=false}={}){
  return {calls,request};
 }
 test('deployment manifest contains only explicitly approved website assets',()=>{
- assert.equal(files.length,27);
+ assert.equal(files.length,32);
  for(const file of files)assert(!/(\.env|\.sql|^tests\/|^scripts\/|package|AGENTS|README)/.test(file.name));
  assert(websiteFiles.includes('vendor/ZXING-LICENSE'));
 });

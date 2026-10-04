@@ -377,6 +377,9 @@ function openItemDetail(item, updateUrl = true) {
   shareButton.type = "button";
   shareButton.addEventListener("click", () => copyItemLink(item, shareButton));
   information.append(shareButton);
+  const memoriesLink = textElement("a", "rooms-link", "RELATED MEMORIES →");
+  memoriesLink.href = `memories.html?item=${encodeURIComponent(item.id)}`;
+  information.append(memoriesLink);
 
   detailContent.replaceChildren(media, information);
   if (updateUrl) updateItemUrl(item);
