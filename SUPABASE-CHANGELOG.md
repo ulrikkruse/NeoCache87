@@ -1,5 +1,21 @@
 # Supabase operation log
 
+## 2026-10-04 — Memory Lane installed
+
+- Project: `zdozxuxouuwmpkajoign` (NeoCache), through Safari SQL Editor.
+- Applied `supabase-memory-lane-20261004.sql` from commit `43d5f61`.
+- Preflight confirmed both new tables and the memories bucket were absent,
+  `items.id` is UUID, and the administrator guard exists. Existing Storage
+  policies were scoped to the images bucket and the administrator.
+- Migration result: `Success. No rows returned`.
+- `tests/sql/memory-lane-regression.sql`: PASS for tables, RLS, grants,
+  constraints and the private photo bucket.
+- `tests/sql/security-regression.sql`: PASS for existing RLS, public reads,
+  admin-only policies and private-table grants.
+- No synthetic memories, photographs or collection records were added to
+  production. Admin workflows are covered by offline browser tests; live
+  policy verification used read-only catalog checks, not test data.
+
 ## 2026-10-03 — Room Tour installed
 
 - Project: `zdozxuxouuwmpkajoign` (NeoCache), through Safari SQL Editor.

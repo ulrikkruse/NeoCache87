@@ -6,10 +6,10 @@ session count. No sample memories are installed in the live database.
 
 ## Database setup before website deployment
 
-**Rollout status, 2026-10-04:** implementation and offline/browser checks are ready.
-The migration has not been executed or verified in the live project because the
-signed-in browser control is unavailable in this session. Neocities deployment
-is therefore pending the database steps below.
+**Database status, 2026-10-04:** the migration from commit `43d5f61` has been
+executed in NeoCache and both live SQL verification scripts passed. See
+[SUPABASE-CHANGELOG.md](SUPABASE-CHANGELOG.md). Do not rerun this migration in
+that project. The steps below document setup for an installation without it.
 
 1. In project `zdozxuxouuwmpkajoign`, review and run
    [supabase-memory-lane-20261004.sql](supabase-memory-lane-20261004.sql) once,
