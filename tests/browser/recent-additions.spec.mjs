@@ -1,5 +1,24 @@
 import {test,expect} from './fixtures.mjs';
 
+test('New Signal marks only registrations within the last 14 days across collections',async({page,backend})=>{
+ const now=new Date('2026-10-04T12:00:00Z');
+ await page.clock.setFixedTime(now);
+ const day=24*60*60*1000;
+ for(const item of backend.items)item.created_at=new Date(now.getTime()-14*day).toISOString();
+ backend.items.find(item=>item.id==='merch').created_at=new Date(now.getTime()-14*day-1).toISOString();
+ for(const path of ['index','music','books','comics']){
+  await page.goto(`/${path}.html`);
+  await expect(page.locator('#item-grid .new-signal')).toHaveCount(1);
+ }
+ const item=backend.items.find(item=>item.id==='book');
+ await page.goto('/books.html');
+ for(const date of [new Date(now.getTime()-14*day-1).toISOString(),new Date(now.getTime()+1).toISOString(),'invalid']){
+  item.created_at=date;await page.reload();
+  await expect(page.locator('#item-grid .item-card')).toHaveCount(1);
+  await expect(page.locator('#item-grid .new-signal')).toHaveCount(0);
+ }
+});
+
 test('recent additions span collections, exclude rooms, sort by registration and open dossiers',async({page,backend},testInfo)=>{
  const dates={computer:'2026-01-01',merch:'2026-01-02',music:'2026-01-06',book:'2026-01-05',comic:'2026-01-04',room:'2026-01-09'};
  for(const item of backend.items)item.created_at=dates[item.id]+'T12:00:00Z';

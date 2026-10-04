@@ -28,6 +28,7 @@ NeoCache87 combines a public collection website with an authenticated admin inte
   objects and an admin editor for uploading photographs and placing markers.
 
 - Search and filter collections, open item dossiers, browse image galleries and share links to individual items.
+- The **NEW SIGNAL** badge marks items registered within the last 14 days.
 - Register items through admin with photos, tags, condition and location.
 - Look up music through MusicBrainz using a barcode, catalog number or text search.
 - Look up books and comics through Open Library using ISBN or text search.
