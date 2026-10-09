@@ -1,4 +1,15 @@
 import {test,expect} from './fixtures.mjs';
+test('Rooms footer matches the collection footer on desktop and mobile',async({page,backend},info)=>{
+ await page.goto('/index.html');
+ await expect(page.locator('#visitor-count')).toHaveText('1,235');
+ const expected=await page.locator('footer').innerText();
+ await page.goto('/rooms.html');
+ await expect(page.locator('#visitor-count')).toHaveText('1,235');
+ await expect(page.locator('#year')).toHaveText(String(new Date().getFullYear()));
+ expect(await page.locator('footer').innerText()).toBe(expected);
+ await expect(page.locator('footer a')).toHaveAttribute('href','memories.html');
+ await page.locator('footer').screenshot({path:info.outputPath('rooms-footer.png')});
+});
 for(const [pageName,titles] of [['index',['Amiga','Tour shirt']],['music',['Rio']],['books',['Absence']],['comics',['Watchmen']]]){
  test(`${pageName}: collection, navigation, origin and responsive layout`,async({page,backend})=>{
   await page.goto(`/${pageName}.html`);

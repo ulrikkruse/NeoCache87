@@ -1,4 +1,5 @@
 (() => {
+  document.querySelector('#year').textContent = new Date().getFullYear();
   const originDialog = document.querySelector('#origin-transmission');
   document.querySelector('#origin-trigger').addEventListener('click', () => originDialog.showModal());
   document.querySelector('#close-origin').addEventListener('click', () => originDialog.close());
