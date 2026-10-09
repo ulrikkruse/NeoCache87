@@ -6,6 +6,7 @@ const pages=['index','music','books','comics','rooms'];
 for(const page of [...pages,'admin','about','tour','memories']) {
  test(`${page}: local assets exist and element IDs are unique`,()=>{
  const html=fs.readFileSync(`${page}.html`,'utf8');
+ assert.doesNotMatch(html,/SUPABASE\s+REST/i,`${page}: backend implementation details must not appear in the UI`);
  const ids=Array.from(html.matchAll(/\bid="([^"]+)"/g),m=>m[1]);assert.equal(ids.length,new Set(ids).size);
  for(const [,url] of html.matchAll(/(?:src|href)="([^"]+)"/g)){
  if(/^(?:[a-z]+:|#|\/\/)/i.test(url))continue;
