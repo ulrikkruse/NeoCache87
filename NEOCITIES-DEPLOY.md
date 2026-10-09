@@ -18,8 +18,9 @@ screenshot, or commit it. It grants access to the site. The environment variable
 `NEOCITIES_API_KEY` is also supported and takes precedence over the local file.
 The script never prints the key or raw API error responses.
 
-Memory Lane requires its SQL migration and live policy verification before uploading
-the dependent website files. See [MEMORY-LANE.md](MEMORY-LANE.md).
+Memory Lane and Press Archive require their SQL migrations and live policy
+verification before uploading dependent website files. See
+[MEMORY-LANE.md](MEMORY-LANE.md) and [PRESS-ARCHIVE.md](PRESS-ARCHIVE.md).
 
 ## Preview and deploy
 

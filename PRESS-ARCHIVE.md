@@ -7,7 +7,10 @@ shareable article and browse its scanned pages in a zoomable viewer.
 
 ## Database before website deployment
 
-**Status: prepared, live execution not yet verified.**
+**Database status, 2026-10-09:** migration from commit `87ae74f` applied and both
+live SQL verification scripts passed. See [SUPABASE-CHANGELOG.md](SUPABASE-CHANGELOG.md).
+Do not rerun it in NeoCache; the steps below document setup for an installation
+without it.
 
 1. Follow [SUPABASE-OPERATIONS.md](SUPABASE-OPERATIONS.md) for project
    `zdozxuxouuwmpkajoign`. The single-administrator guard must already exist.
