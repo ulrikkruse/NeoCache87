@@ -7,7 +7,9 @@ test('Rooms footer matches the collection footer on desktop and mobile',async({p
  await expect(page.locator('#visitor-count')).toHaveText('1,235');
  await expect(page.locator('#year')).toHaveText(String(new Date().getFullYear()));
  expect(await page.locator('footer').innerText()).toBe(expected);
- await expect(page.locator('footer a')).toHaveAttribute('href','memories.html');
+ await expect(page.locator('footer a')).toHaveText(['PRESS ARCHIVE →','MEMORY LANE →']);
+ await expect(page.locator('footer a').first()).toHaveAttribute('href','press.html');
+ await expect(page.locator('footer a').last()).toHaveAttribute('href','memories.html');
  await page.locator('footer').screenshot({path:info.outputPath('rooms-footer.png')});
 });
 for(const [pageName,titles] of [['index',['Amiga','Tour shirt']],['music',['Rio']],['books',['Absence']],['comics',['Watchmen']]]){

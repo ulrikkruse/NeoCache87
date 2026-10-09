@@ -17,9 +17,13 @@ NeoCache87 combines a public collection website with an authenticated admin inte
 | The Rooms | Photo galleries of the ’80s room and home cinema |
 | Room Tour | Zoomable photographs with markers linking to collection dossiers |
 | Memory Lane | Personal memories, places and photo albums from the eighties |
+| Press Archive | Duran Duran articles, interviews and reviews with scanned pages |
 | Origin File | The personal story behind NeoCache87 |
 
 ## Features
+
+- Browse the [Press Archive](PRESS-ARCHIVE.md), with original headlines, language/year/type
+  filters, private drafts, personal notes and multiple zoomable scanned pages.
 
 - Write personal memories in [Memory Lane](MEMORY-LANE.md), with photo albums,
   captions, private drafts, publication and links to collection dossiers.
@@ -85,7 +89,8 @@ See [TESTING.md](TESTING.md) for coverage and [AGENTS.md](AGENTS.md) for project
 
 For ongoing database changes, see [SUPABASE-OPERATIONS.md](SUPABASE-OPERATIONS.md)
 and the [execution log](SUPABASE-CHANGELOG.md). SQL can be executed through the
-owner's signed-in dashboard session; this is separate from Neocities uploads.
+connected Supabase integration or the owner's signed-in dashboard session; this
+is separate from Neocities uploads.
 
 This repository contains incremental setup scripts for the existing NeoCache database. It is **not a complete one-command database bootstrap**: a new installation needs the base `items`, `images`, `tags` and `item_tags` tables, their relationships and public read policies, plus the `images` Storage bucket.
 
@@ -93,6 +98,7 @@ For another installation, configure your own project URL and public client key i
 
 | Setup | Guide or script |
 | --- | --- |
+| Press Archive | [PRESS-ARCHIVE.md](PRESS-ARCHIVE.md) |
 | Memory Lane | [MEMORY-LANE.md](MEMORY-LANE.md) |
 | Administrator access | [supabase-admin-setup.sql](supabase-admin-setup.sql) |
 | Music releases and lookup | [MUSIC-LOOKUP-SETUP.md](MUSIC-LOOKUP-SETUP.md) |
@@ -114,9 +120,9 @@ verification. Only changed website files are uploaded; Supabase is separate.
 
 There is no build output to generate. Upload the website files from the project root:
 
-- HTML: `index.html`, `music.html`, `books.html`, `comics.html`, `rooms.html`, `about.html`, `admin.html`, `tour.html`, `memories.html`.
-- CSS: `style.css`, `rooms.css`, `about.css`, `admin.css`, `tour.css`, `memories.css`.
-- JavaScript: `config.js`, `app.js`, `rooms.js`, `admin.js`, `isbn.js`, `music-lookup.js`, `publication-lookup.js`, `visitor-counter.js`, `duplicates.js`, `tour-core.js`, `tour.js`, `admin-tour.js`, `memory-core.js`, `memories.js`, `admin-memory.js`.
+- HTML: `index.html`, `music.html`, `books.html`, `comics.html`, `rooms.html`, `about.html`, `admin.html`, `tour.html`, `memories.html`, `press.html`.
+- CSS: `style.css`, `rooms.css`, `about.css`, `admin.css`, `tour.css`, `memories.css`, `press.css`.
+- JavaScript: `config.js`, `app.js`, `rooms.js`, `admin.js`, `isbn.js`, `music-lookup.js`, `publication-lookup.js`, `visitor-counter.js`, `duplicates.js`, `tour-core.js`, `tour.js`, `admin-tour.js`, `memory-core.js`, `memories.js`, `admin-memory.js`, `press-core.js`, `press.js`, `admin-press.js`.
 - The `vendor/` directory, preserving its paths and license.
 
 Upload related HTML and asset changes together so cache-version references stay synchronized. Supabase SQL scripts and Edge Functions are applied separately through Supabase.

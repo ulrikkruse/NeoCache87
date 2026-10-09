@@ -6,7 +6,7 @@ const user={id:'test-owner',email:'tester@example.invalid'};
 export const test=base.extend({
  backend:async({context},use)=>{
   const items=structuredClone(mixedItems).map(item=>({...item,slug:item.id,images:[{storage_path:`${item.id}/front.png`,is_primary:true},{storage_path:`${item.id}/back.png`}],item_tags:item.id==='room'?[{tags:{name:'80s-room'}}]:[]}));
-  const state={memories:[],memoryPhotos:[],memoryFailure:false,memoryWriteFailure:false,memoryImageFailure:false,scenes:[],tourPoints:[],tourFailure:false,tourWriteFailure:false,visitTotal:1234,visitIds:new Set(),visitCalls:[],counterFailure:false,items,writes:[],unexpected:[],errors:[],folders:['books','comics','Software'],failSave:false,lookupEmpty:false,lookupFailure:false,publicationLookups:[],musicLookups:[]};
+  const state={pressArticles:[],pressPages:[],pressFailure:false,pressWriteFailure:false,pressImageFailure:false,memories:[],memoryPhotos:[],memoryFailure:false,memoryWriteFailure:false,memoryImageFailure:false,scenes:[],tourPoints:[],tourFailure:false,tourWriteFailure:false,visitTotal:1234,visitIds:new Set(),visitCalls:[],counterFailure:false,items,writes:[],unexpected:[],errors:[],folders:['books','comics','Software'],failSave:false,lookupEmpty:false,lookupFailure:false,publicationLookups:[],musicLookups:[]};
   context.on('page',page=>page.on('pageerror',error=>state.errors.push(error.message)));
   await context.route('**/*',async route=>{
    const request=route.request(),url=new URL(request.url());
@@ -26,6 +26,35 @@ export const test=base.extend({
    if(url.hostname!=='fixture.invalid'){state.unexpected.push(request.url());return route.abort();}
    const method=request.method(),p=url.pathname;
    const memoryAdmin=request.headers().authorization==='Bearer fixture-session';
+   if(p.startsWith('/storage/v1/object/press/')&&method==='GET'){
+    const path=p.split('/press/')[1], photo=state.pressPages.find(row=>row.path===path);
+    const allowed=memoryAdmin || photo&&state.pressArticles.some(row=>row.id===photo.article_id&&row.published);
+    if(!allowed||state.pressImageFailure)return json({message:'Photo unavailable'},403);
+    return route.fulfill({contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1200"><rect width="900" height="1200" fill="#e8dfc6"/><text x="55" y="100" fill="#302d2a" font-size="46">SYNTHETIC DAILY</text><path d="M55 130H845" stroke="#302d2a" stroke-width="5"/><text x="55" y="200" fill="#302d2a" font-size="32">Duran Duran in print</text><rect x="55" y="250" width="790" height="310" fill="#676578"/><path d="M55 620H420M480 620H845M55 670H420M480 670H845M55 720H420M480 720H845M55 770H420M480 770H845M55 820H420M480 820H845M55 870H420M480 870H845M55 920H420M480 920H845M55 970H420M480 970H845M55 1020H420M480 1020H845" stroke="#777168" stroke-width="12"/><text x="55" y="1130" fill="#302d2a" font-size="22">TEST FIXTURE — NOT A REAL ARTICLE</text></svg>'});
+   }
+   if(p.startsWith('/storage/v1/object/press/')&&method==='POST'){
+    state.writes.push({path:p,method});
+    return memoryAdmin?json({}):json({message:'Forbidden'},403);
+   }
+   if(['/rest/v1/press_articles','/rest/v1/press_pages'].includes(p)){
+    if(state.pressFailure)return json({message:'Memories unavailable'},503);
+    const press_articles=p.endsWith('/press_articles'), records=press_articles?state.pressArticles:state.pressPages;
+    if(method==='GET'){
+     let rows=records.filter(row=>memoryAdmin||(press_articles?row.published:state.pressArticles.some(m=>m.id===row.article_id&&m.published)));
+     for(const key of ['id','article_id','related_item_id'])if(url.searchParams.has(key))rows=rows.filter(r=>'eq.'+r[key]===url.searchParams.get(key));
+     if(url.searchParams.get('published')==='eq.true')rows=rows.filter(r=>r.published);
+     if(!press_articles)rows.sort((a,b)=>a.position-b.position);
+     if(press_articles)rows=rows.sort((a,b)=>(b.year||0)-(a.year||0)).map(row=>({...row,press_pages:state.pressPages.filter(p=>p.article_id===row.id).sort((a,b)=>a.position-b.position).slice(0,1)}));
+     const offset=Number(url.searchParams.get('offset')||0);return json(rows.slice(offset,offset+2));
+    }
+    const body=method==='DELETE'?null:request.postDataJSON();state.writes.push({path:p,method,body});
+    if(!memoryAdmin)return json({message:'Forbidden'},403);
+    if(state.pressWriteFailure)return json({message:'Fixture press write failure'},500);
+    if(method==='POST'){const row={...body,id:body.id||'photo-'+(records.length+1)};records.push(row);return json([row]);}
+    const index=records.findIndex(r=>'eq.'+r.id===url.searchParams.get('id'));
+    if(method==='PATCH'){if(index<0)return json([]);Object.assign(records[index],body);return json([records[index]]);}
+    if(method==='DELETE'){if(index>=0)records.splice(index,1);return json([]);}
+   }
    if(p.startsWith('/storage/v1/object/memories/')&&method==='GET'){
     const path=p.split('/memories/')[1], photo=state.memoryPhotos.find(row=>row.path===path);
     const allowed=memoryAdmin || photo&&state.memories.some(row=>row.id===photo.memory_id&&row.published);

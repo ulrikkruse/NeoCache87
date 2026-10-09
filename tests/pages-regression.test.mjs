@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 const pages=['index','music','books','comics','rooms'];
-for(const page of [...pages,'admin','about','tour','memories']) {
+for(const page of [...pages,'admin','about','tour','memories','press']) {
  test(`${page}: local assets exist and element IDs are unique`,()=>{
  const html=fs.readFileSync(`${page}.html`,'utf8');
  assert.doesNotMatch(html,/SUPABASE\s+REST/i,`${page}: backend implementation details must not appear in the UI`);

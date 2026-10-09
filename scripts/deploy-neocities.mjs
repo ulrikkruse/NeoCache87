@@ -13,6 +13,7 @@ export const websiteFiles = Object.freeze([
  'publication-lookup.js','visitor-counter.js','duplicates.js',
  'vendor/zxing-browser-0.1.5.min.js','vendor/ZXING-LICENSE',
  'tour.html','tour.css','tour-core.js','tour.js','admin-tour.js',
+ 'press.html','press.css','press-core.js','press.js','admin-press.js',
  'memories.html','memories.css','memory-core.js','memories.js','admin-memory.js'
 ]);
 const root = fileURLToPath(new URL('../',import.meta.url));

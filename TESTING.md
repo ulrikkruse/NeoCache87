@@ -134,3 +134,12 @@ failure for each regression; startup errors or an unrelated failure do not count
 as success. Application files are never edited. Run `npm run test:all` afterwards
 to leave a fresh passing HTML report. The guard check is required when changing
 the browser harness and optional on routine application changes.
+
+## Press Archive
+
+`tests/press-core.test.mjs` checks combined filters, date labels and private image
+requests. `tests/browser/press.spec.mjs` covers multilingual headlines, pagination,
+ordered scans, viewer zoom/navigation, drafts and publication, admin uploads,
+caption/order editing, failed saves, retry and logout on both browser projects.
+Live RLS and bucket checks are in `tests/sql/press-archive-regression.sql`; browser
+fixtures do not prove live database security. See [PRESS-ARCHIVE.md](PRESS-ARCHIVE.md).

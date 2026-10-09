@@ -5,7 +5,9 @@
 - Project: NeoCache
 - Project reference: `zdozxuxouuwmpkajoign`
 - SQL Editor: https://supabase.com/dashboard/project/zdozxuxouuwmpkajoign/sql/new
-- Current execution route: the user's signed-in Safari session, through the
+- Current execution route: the connected Supabase integration (`apply_migration`
+  for DDL, `execute_sql` for read-only verification).
+- Fallback when available: the user's signed-in Safari session through the
   Supabase dashboard SQL Editor.
 
 The user authorizes routine SQL schema changes and fixes needed for requested
@@ -13,9 +15,9 @@ NeoCache work. Ask before deleting existing data or making a change with materia
 risk. Do not treat this as permission to make unrelated database changes or to
 broaden access. Authentication settings and Edge Functions are separate operations.
 
-This is an agent-operated browser workflow, not an unattended SQL deployment
-service. Access depends on the browser session remaining signed in and available.
-If it expires, ask the user to sign in again. Do not extract browser cookies or
+This is an agent-operated workflow, not an unattended SQL deployment service.
+Access depends on the Supabase integration remaining connected, or on an available
+signed-in browser session. If access expires, ask the user to reconnect or sign in. Do not extract browser cookies or
 tokens, store database passwords in this repository, or use the public `anon` key
 as an administrative credential. The Neocities key cannot execute Supabase SQL.
 
@@ -34,10 +36,11 @@ as an administrative credential. The Neocities key cannot execute Supabase SQL.
 4. Complete the required regression checks and review the exact SQL before
    execution. Commit and push the reviewed migration so the executed version is
    identifiable. Offline tests mock Supabase; they are not live SQL verification.
-5. Open a new query in the correct project's SQL Editor. Check the project URL,
-   database target and role, paste the reviewed SQL and execute that query only.
-   Avoid selecting and running just a fragment of a transaction. Read the result;
-   a timeout or lost browser connection is not proof of either success or failure.
+5. Verify the project identity. With the connected integration, apply the exact
+   reviewed SQL through `apply_migration`, using a descriptive migration name.
+   Alternatively open a new SQL Editor query, check the project URL, database
+   target and role, paste the reviewed SQL and execute the full transaction.
+   Read the result; a timeout or lost connection is not proof of success or failure.
 6. Verify the affected schema and policies with read-only queries. Run the
    existing `tests/sql/security-regression.sql` after policy/grant changes. Do not
    create synthetic records in the production database for testing. If execution
