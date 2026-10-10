@@ -22,7 +22,7 @@
   }
   function matches(candidate, items) {
     return items.flatMap(item => {
-      if ((item.item_tags || []).some(r => ['80s-room','home-cinema'].includes(norm(r.tags?.name)))) return [];
+      if ((item.item_tags || []).some(r => ['80s-room','home-cinema','house'].includes(norm(r.tags?.name)))) return [];
       const reasons = [], category = kind(item), music = item.music_details || {}, publication = item.publication_details || {};
       if (candidate.record_kind === 'music' && category === 'music') {
         if (same(candidate.music_barcode, music.barcode, barcode)) reasons.push('Same barcode');

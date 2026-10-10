@@ -173,11 +173,23 @@ function renderExistingItems() {
   if (existingItems.some((item) => item.id === currentValue)) existingItemSelect.value = currentValue;
 }
 
+async function readEditorPages(query) {
+  const rows = [];
+  for (let offset = 0; ; ) {
+    const page = await restRequest(`${query}&limit=100&offset=${offset}`);
+    if (!page.length) return rows;
+    rows.push(...page);
+    offset += page.length;
+  }
+}
+
 async function loadEditorData() {
+  const currentSession = session;
   const [items, tags] = await Promise.all([
-    restRequest(`items?select=${encodeURIComponent("*,item_tags(tag_id,tags(id,name)),music_details(*),publication_details(*)")}&order=title`),
-    restRequest("tags?select=id,name&order=name")
+    readEditorPages(`items?select=${encodeURIComponent("*,item_tags(tag_id,tags(id,name)),music_details(*),publication_details(*)")}&order=title,id`),
+    readEditorPages("tags?select=id,name&order=name,id")
   ]);
+  if (session !== currentSession) return;
   existingItems = items;
   knownTags = tags;
   renderDatalist(typeOptions, items.map((item) => item.type));
@@ -373,7 +385,7 @@ function canHaveStory(item) {
   const type = String(item.type || "").trim().toLowerCase();
   if (item.music_details && !["merch", "merchandise"].includes(type)) return false;
   if (/^(lp|vinyl|cd|sacd|cassette|audio cassette|tape|minidisc|7-inch single|12-inch single|ep|vinyl record|record|shellac|reel-to-reel)$/.test(type)) return false;
-  return !(item.item_tags || []).some(relation => ["80s-room", "home-cinema"].includes(String(relation.tags?.name).toLowerCase()));
+  return !(item.item_tags || []).some(relation => ["80s-room", "home-cinema", "house"].includes(String(relation.tags?.name).toLowerCase()));
 }
 
 document.querySelector("#save-story-button").addEventListener("click", async () => {
@@ -563,7 +575,7 @@ itemForm.addEventListener("submit", async (event) => {
   if (Number.isFinite(year)) item.year = year;
   const tagNames = uniqueValues(String(formData.get("tags") || "").split(",").map((value) => value.trim()));
   const room = String(formData.get("room") || "");
-  if (["80s-room", "home-cinema"].includes(room) && !tagNames.includes(room)) tagNames.push(room);
+  if (["80s-room", "home-cinema", "house"].includes(room) && !tagNames.includes(room)) tagNames.push(room);
   const uploadedPaths = [];
   let createdItemId = null;
 

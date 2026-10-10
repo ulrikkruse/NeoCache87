@@ -583,7 +583,7 @@ async function loadItems() {
     // Room gallery records are excluded before building archive cards, filters,
     // statistics, random selections, and direct item links.
     const collectionItems = items.filter((item) => !getTags(item).some((tag) =>
-      ["80s-room", "home-cinema"].includes(String(tag).trim().toLowerCase())
+      ["80s-room", "home-cinema", "house"].includes(String(tag).trim().toLowerCase())
     ));
     renderRecentAdditions(collectionItems);
     allItems = collectionItems.filter(item => itemCollection(item) === collectionPage);

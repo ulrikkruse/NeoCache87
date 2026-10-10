@@ -8,7 +8,7 @@
   });
   const config = window.NEOCACHE_CONFIG || {};
   const projectUrl = (config.SUPABASE_URL || '').replace(/\/+$/, '').replace(/\/rest\/v1$/i, '');
-  const labels = { '80s-room': '80s room', 'home-cinema': 'Home cinema' };
+  const labels = { '80s-room': '80s room', 'home-cinema': 'Home cinema', 'house': 'The house' };
   const grid = document.querySelector('#room-grid');
   const status = document.querySelector('#room-status');
   const count = document.querySelector('#photo-count');
@@ -43,7 +43,7 @@
     grid.replaceChildren();
     count.textContent = `${visible.length} ${visible.length === 1 ? "photo" : "photos"}`;
     status.hidden = visible.length > 0;
-    status.textContent = selected === 'all' ? 'No photos from the rooms yet. Check back soon.' : `No photos from the ${labels[selected].toLowerCase()} yet.`;
+    status.textContent = selected === 'all' ? 'No photos from the rooms yet. Check back soon.' : `No photos in ${labels[selected].toLowerCase()} yet.`;
     visible.forEach((photo, index) => {
       const button = document.createElement('button');
       button.type = 'button';

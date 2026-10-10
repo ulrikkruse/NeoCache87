@@ -9,6 +9,7 @@ test('tour positions are percentages, bounded and independent of displayed size'
 });
 test('tour links preserve collection isolation and encode item identifiers',()=>{
  for(const [item,page] of [[{type:'Merch',music_details:{}},'index'],[{type:'LP'},'music'],[{publication_details:{kind:'comics'}},'comics'],[{category:'Books'},'books']])assert.equal(T.itemHref({...item,id:'x&y'}),`${page}.html?item=x%26y`);
+ assert(T.isRoom({item_tags:[{tags:{name:'house'}}]}));
  assert(T.isRoom({item_tags:[{tags:{name:'80s-room'}}]}));assert.equal(T.imageUrl('javascript:alert(1)'), '');assert.equal(T.imageUrl('../secret'), '');
 });
 test('tour pagination keeps later pages',async()=>{

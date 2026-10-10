@@ -22,7 +22,7 @@ test('catalog matches need same artist; release IDs can match without title',()=
  assert.equal(matches({record_kind:'music',music_musicbrainz_release_id:'release-1'},[item]).length,1);
 });
 test('title hints stay in their collection and skip room photos',()=>{
- const items=[{id:'a',title:'Same',type:'Computer'},{id:'b',title:'Same',type:'CD'},{id:'c',title:'Same',item_tags:[{tags:{name:'80s-room'}}]}];
+ const items=[{id:'house',title:'Same',item_tags:[{tags:{name:'house'}}]},{id:'a',title:'Same',type:'Computer'},{id:'b',title:'Same',type:'CD'},{id:'c',title:'Same',item_tags:[{tags:{name:'80s-room'}}]}];
  assert.equal(matches({record_kind:'artifact',title:' same '},items).length,1);
  assert.equal(matches({record_kind:'books',title:'same'},items).length,0);
  assert.equal(matches({record_kind:'artifact',title:''},[{title:''}]).length,0);

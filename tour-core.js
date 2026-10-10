@@ -8,7 +8,7 @@
     return 'index';
   }
   function isRoom(item) {
-    return [...(item.tags || []), ...(item.item_tags || []).map(r => r.tags?.name)].some(t => ['80s-room', 'home-cinema'].includes(String(t?.name || t || '').trim().toLowerCase()));
+    return [...(item.tags || []), ...(item.item_tags || []).map(r => r.tags?.name)].some(t => ['80s-room', 'home-cinema', 'house'].includes(String(t?.name || t || '').trim().toLowerCase()));
   }
   function imageUrl(path) {
     if (typeof path !== 'string' || !path || path.startsWith('/') || path.includes('..') || /[:\\]/.test(path)) return '';

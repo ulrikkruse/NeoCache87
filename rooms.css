@@ -1,6 +1,6 @@
 .room-hero { padding-bottom: 45px; }
 .room-hero h1 em { white-space: normal; overflow-wrap: anywhere; }
-.room-intros { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 45px; }
+.room-intros { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-top: 45px; }
 .room-intros article { border-left: 2px solid var(--pink); padding: 8px 20px; background: linear-gradient(90deg, #ff2d950a, transparent); }
 .room-intros article:last-child { border-color: var(--cyan); }
 .room-intros span { color: var(--muted); font: .65rem var(--mono); letter-spacing: .12em; }

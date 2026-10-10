@@ -14,7 +14,7 @@ NeoCache87 combines a public collection website with an authenticated admin inte
 | Music | Physical music releases, including vinyl, CDs and cassettes |
 | Books | Books with edition details and optional ISBNs |
 | Comics | Comics with series, issue and edition details |
-| The Rooms | Photo galleries of the ’80s room and home cinema |
+| The Rooms | Photo galleries of the ’80s room, home cinema and pop culture throughout the house |
 | Room Tour | Zoomable photographs with markers linking to collection dossiers |
 | Memory Lane | Personal memories, places and photo albums from the eighties |
 | Press Archive | Duran Duran articles, interviews and reviews with scanned pages |
@@ -34,6 +34,10 @@ NeoCache87 combines a public collection website with an authenticated admin inte
 - Search and filter collections, open item dossiers, browse image galleries and share links to individual items.
 - The **NEW SIGNAL** badge marks items registered within the last 14 days.
 - Register items through admin with photos, tags, condition and location.
+- Choose **The house** under admin’s **ROOM GALLERY** for pop-culture photos from
+  other rooms. Existing photos can use the `house` tag. They appear under
+  **THE HOUSE** and **ALL PHOTOS** in The Rooms, outside the object collections.
+  Admin loads all pages of existing records and tags, including larger collections.
 - Look up music through MusicBrainz using a barcode, catalog number or text search.
 - Look up books and comics through Open Library using ISBN or text search.
 - Scan supported barcodes with a phone camera. Manual entry remains available.
