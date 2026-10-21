@@ -164,13 +164,15 @@ function renderExistingItems() {
   placeholder.value = "";
   placeholder.textContent = "CHOOSE ARCHIVE RECORD…";
   existingItemSelect.append(placeholder);
-  existingItems.forEach((item) => {
+  const search = document.querySelector("#existing-item-search").value.trim().toLowerCase();
+  existingItems.filter(item => [item.title, item.manufacturer, item.model, item.id].join(" ").toLowerCase().includes(search)).forEach((item) => {
     const option = document.createElement("option");
     option.value = item.id;
     option.textContent = [item.title || "Untitled", item.manufacturer || item.model].filter(Boolean).join(" // ");
     existingItemSelect.append(option);
   });
-  if (existingItems.some((item) => item.id === currentValue)) existingItemSelect.value = currentValue;
+  if ([...existingItemSelect.options].some(option => option.value === currentValue)) existingItemSelect.value = currentValue;
+  existingItemSelect.dispatchEvent(new Event("change"));
 }
 
 async function readEditorPages(query) {
@@ -186,7 +188,7 @@ async function readEditorPages(query) {
 async function loadEditorData() {
   const currentSession = session;
   const [items, tags] = await Promise.all([
-    readEditorPages(`items?select=${encodeURIComponent("*,item_tags(tag_id,tags(id,name)),music_details(*),publication_details(*)")}&order=title,id`),
+    readEditorPages(`items?select=${encodeURIComponent("*,images(*),item_tags(tag_id,tags(id,name)),music_details(*),publication_details(*)")}&order=title,id`),
     readEditorPages("tags?select=id,name&order=name,id")
   ]);
   if (session !== currentSession) return;
@@ -521,6 +523,72 @@ editTagsForm.addEventListener("submit", async (event) => {
   }
 });
 
+// Archive deletion is one primary-key-filtered request. Database foreign keys
+// handle dependent records atomically; Storage files are deliberately retained.
+const deletePanel = document.querySelector("#delete-item-panel");
+const deleteDialog = document.querySelector("#delete-item-dialog");
+const deleteStatus = document.querySelector("#delete-item-status");
+const deleteConfirm = document.querySelector("#delete-item-confirm");
+const deletePreview = document.querySelector("#delete-item-preview");
+let pendingDelete = null, deletingItem = false;
+function deletionSummary(item) {
+  return [item.title || "Untitled", [item.manufacturer, item.type, item.year].filter(Boolean).join(" · "), `Record ID: ${item.id}`].filter(Boolean).join("\n");
+}
+function updateDeleteSelection() {
+  const item = existingItems.find(row => row.id === existingItemSelect.value);
+  deletePanel.hidden = !item || !canHaveStory(item);
+  deletePreview.hidden = true; deletePreview.removeAttribute("src");
+  if (deletePanel.hidden) return;
+  document.querySelector("#delete-item-summary").textContent = deletionSummary(item);
+  document.querySelector("#delete-item-open").href = `index.html?item=${encodeURIComponent(item.id)}`;
+  const image = item.images?.find(photo => photo.is_primary) || item.images?.[0];
+  const src = image?.storage_path ? NeoTour.imageUrl(image.storage_path) : '';
+  if (src) { deletePreview.src = src; deletePreview.alt = item.title || "Selected item"; deletePreview.hidden = false; }
+}
+deletePreview.addEventListener("error", () => { deletePreview.hidden = true; });
+existingItemSelect.addEventListener("change", updateDeleteSelection);
+document.querySelector("#existing-item-search").addEventListener("input", renderExistingItems);
+document.querySelector("#existing-item-search").addEventListener("keydown", event => { if (event.key === "Enter") event.preventDefault(); });
+document.querySelector("#delete-item-button").addEventListener("click", () => {
+  const item = existingItems.find(row => row.id === existingItemSelect.value);
+  if (!session || !item || !canHaveStory(item) || deletingItem) return;
+  pendingDelete = {id: item.id, title: item.title};
+  document.querySelector("#delete-confirm-summary").textContent = deletionSummary(item);
+  deleteStatus.textContent = '';
+  deleteDialog.showModal();
+});
+document.querySelector("#delete-item-cancel").addEventListener("click", () => deleteDialog.close());
+deleteDialog.addEventListener("close", () => { if (!deletingItem) pendingDelete = null; });
+deleteDialog.addEventListener("cancel", event => { if (deletingItem) event.preventDefault(); });
+deleteConfirm.addEventListener("click", async () => {
+  if (!session || !pendingDelete || deletingItem) return;
+  const target = {...pendingDelete}, currentSession = session;
+  deletingItem = true;
+  const controls = [...document.querySelectorAll('.tag-maintenance button, .tag-maintenance input, .tag-maintenance select, .tag-maintenance textarea')];
+  const disabled = controls.map(control => control.disabled);
+  controls.forEach(control => { control.disabled = true; });
+  deleteStatus.textContent = 'Deleting selected record…';
+  try {
+    const rows = await restRequest(`items?id=eq.${encodeURIComponent(target.id)}&select=id`, {method: 'DELETE', headers: {Prefer: 'return=representation'}});
+    if (session !== currentSession) return;
+    if (!Array.isArray(rows) || rows.length !== 1 || rows[0].id !== target.id) throw Error('Deletion was not confirmed. Reload admin before trying again.');
+    existingItems = existingItems.filter(item => item.id !== target.id);
+    existingItemSelect.value = ''; renderExistingItems();
+    deleteStatus.textContent = `Deleted “${target.title || 'Untitled'}” from Archive. Original image files were kept.`;
+  } catch (error) {
+    if (session === currentSession) deleteStatus.textContent = `Could not confirm deletion: ${error.message} Reload admin to check the record before retrying.`;
+  } finally {
+    deletingItem = false; pendingDelete = null; deleteDialog.close();
+    controls.forEach((control, i) => { control.disabled = disabled[i]; });
+    if (session === currentSession) existingItemSelect.dispatchEvent(new Event('change'));
+  }
+});
+window.addEventListener('neocache-admin-logout', () => {
+  pendingDelete = null; deleteDialog.close(); deletePanel.hidden = true;
+  deletePreview.removeAttribute('src'); deleteStatus.textContent = '';
+  document.querySelector('#existing-item-search').value = '';
+});
+
 itemForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const files = [...filesInput.files];
@@ -666,6 +734,7 @@ itemForm.addEventListener("submit", async (event) => {
     saveButton.disabled = false;
   }
 });
+
 
 if (!projectUrl || !publicKey || projectUrl.includes("DIT-PROJEKT")) {
   loginForm.querySelector("button").disabled = true;

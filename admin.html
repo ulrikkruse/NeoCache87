@@ -6,10 +6,10 @@
     <meta name="robots" content="noindex, nofollow">
     <title>NeoCache // Admin Terminal</title>
     <link rel="stylesheet" href="style.css?v=20261002-1">
-    <link rel="stylesheet" href="admin.css?v=20261001-1">
+    <link rel="stylesheet" href="admin.css?v=20261021-1">
     <script src="config.js?v=20260904-1" defer></script>
     <script src="isbn.js?v=20260909-1" defer></script>
-    <script src="admin.js?v=20261010-1" defer></script>
+    <script src="admin.js?v=20261021-1" defer></script>
     <script src="duplicates.js?v=20261010-1" defer></script>
     <script src="music-lookup.js?v=20261001-1" defer></script>
     <script src="publication-lookup.js?v=20261001-1" defer></script>
@@ -151,11 +151,12 @@
           <div class="maintenance-heading">
             <div>
               <p class="panel-code">// EXISTING RECORD</p>
-              <h2>Tag maintenance</h2>
+              <h2>Manage existing items</h2>
             </div>
-            <p>RETUNE AN ITEM'S TAG MATRIX</p>
+            <p>TAGS, STORIES &amp; ARCHIVE CLEANUP</p>
           </div>
           <form id="edit-tags-form" class="maintenance-editor">
+            <label><span>FIND ITEM</span><input id="existing-item-search" type="search" placeholder="Title, maker or record ID"></label>
             <label>
               <span>SELECT ITEM</span>
               <span class="admin-select-shell">
@@ -174,6 +175,20 @@
             <div id="existing-story-editor" hidden><label><span>PERSONAL STORY // ARCHIVE ONLY</span><textarea id="existing-personal-story" rows="6" maxlength="10000"></textarea></label><button id="save-story-button" class="primary-action" type="button">SAVE PERSONAL STORY</button><p id="story-status" role="status"></p></div>
             <div id="edit-tags-status" class="save-status" role="status" aria-live="polite"></div>
           </form>
+          <section id="delete-item-panel" class="delete-item-panel" hidden aria-labelledby="delete-item-heading">
+            <h3 id="delete-item-heading">Delete from Archive</h3>
+            <img id="delete-item-preview" alt="Selected item" hidden>
+            <p id="delete-item-summary"></p><a id="delete-item-open" class="rooms-link" target="_blank" rel="noopener">OPEN DOSSIER ↗</a>
+            <p>Deletes this record, its story, image links and tour markers permanently. Memory Lane stories stay, with their object link removed. Original image files stay in Storage.</p>
+            <button id="delete-item-button" class="danger-action" type="button">DELETE FROM ARCHIVE…</button>
+          </section>
+          <p id="delete-item-status" role="status"></p>
+          <dialog id="delete-item-dialog" aria-labelledby="delete-confirm-heading">
+            <h2 id="delete-confirm-heading">Delete this Archive item?</h2>
+            <p id="delete-confirm-summary"></p>
+            <p>This cannot be undone. Only this selected record is deleted. Original image files are kept.</p>
+            <div class="delete-actions"><button id="delete-item-cancel" type="button" autofocus>CANCEL</button><button id="delete-item-confirm" class="danger-action" type="button">DELETE PERMANENTLY</button></div>
+          </dialog>
         </section>
 
 

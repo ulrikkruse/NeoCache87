@@ -34,6 +34,12 @@ NeoCache87 combines a public collection website with an authenticated admin inte
 - Search and filter collections, open item dossiers, browse image galleries and share links to individual items.
 - The **NEW SIGNAL** badge marks items registered within the last 14 days.
 - Register items through admin with photos, tags, condition and location.
+- Remove an Archive duplicate under **Admin → Manage existing items**: search,
+  select the record, check its preview/ID and choose **DELETE FROM ARCHIVE…**.
+  Confirming permanently deletes that record and its image links, tags links,
+  personal story and Room Tour markers. Memory Lane stories remain with their
+  object link cleared. Original Storage files are retained, including shared images.
+  Music, Books, Comics and room photos do not offer this delete action.
 - Choose **The house** under admin’s **ROOM GALLERY** for pop-culture photos from
   other rooms. Existing photos can use the `house` tag. They appear under
   **THE HOUSE** and **ALL PHOTOS** in The Rooms, outside the object collections.

@@ -120,3 +120,16 @@
 .duplicate-warning li { margin: 10px 0; }
 .duplicate-warning label { display: flex; align-items: center; line-height: 1.6; }
 .item-editor .duplicate-warning input { width: 22px; min-height: 22px; flex-shrink: 0; }
+
+.delete-item-panel { margin-top: 24px; padding: 20px; border: 1px solid var(--pink); }
+.delete-item-panel[hidden] { display: none; }
+.delete-item-panel p, #delete-item-dialog p { line-height: 1.6; overflow-wrap: anywhere; }
+#delete-item-summary, #delete-confirm-summary { white-space: pre-wrap; }
+#delete-item-preview { max-width: 100%; width: 180px; max-height: 180px; object-fit: contain; }
+#delete-item-dialog { width: min(540px, calc(100% - 32px)); max-height: 90vh; padding: 24px; border: 1px solid var(--pink); color: var(--text); background: var(--panel); }
+#delete-item-dialog::backdrop { background: #000c; }
+.delete-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.delete-actions button, .danger-action { min-height: 44px; padding: 12px; background: var(--panel); border: 1px solid var(--muted); color: var(--text); font: .75rem var(--mono); cursor: pointer; }
+button.danger-action { border-color: var(--pink); color: var(--pink); }
+.delete-actions button:focus-visible, .danger-action:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+.delete-actions button:disabled, .danger-action:disabled { opacity: .5; cursor: wait; }
